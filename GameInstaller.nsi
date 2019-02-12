@@ -9,10 +9,11 @@
  ; !include "zipdll.nsh"
 ;--------------------------------
 ;General
-
+  !define MUI_WELCOMEPAGE_TEXT "Game made for AI class$\r$\nMenu made for configuration project 1$\r$\nInstaller made for configuration project."
+  ;!insertmacro MUI_PAGE_LICENSE "1.txt"
   ;Name and file
-  Name "Modern UI Test"
-  OutFile "StartMenu.exe"
+  Name "X-Wing"
+  OutFile "X-Wing_Installer.exe"
 
   ;Default installation folder
   InstallDir "$LOCALAPPDATA\Modern UI Test"
@@ -36,7 +37,7 @@
 ;--------------------------------
 ;Pages
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "${NSISDIR}\Docs\Modern UI\License.txt"
+  !insertmacro MUI_PAGE_LICENSE "license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   
@@ -91,11 +92,11 @@ SectionEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_SecDummy ${LANG_ENGLISH} "A test section."
+  LangString descSecModules ${LANG_ENGLISH} "A test section."
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecDummy} $(DESC_SecDummy)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecModules} $(descSecModules)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
  
 ;--------------------------------
@@ -103,7 +104,7 @@ SectionEnd
 
 Section "Uninstall"
 
-  ;For safety reason specifying all folders and files in $INSTDIR
+  ;For safety reasons specifying all folders and files in $INSTDIR
   RMDir /r "$INSTDIR\assets"
   RMDir /r "$INSTDIR\config"
   RMDir /r "$INSTDIR\localization"
