@@ -76,13 +76,23 @@ bool cVAOMeshManager::FindDrawInfoByModelName(sModelDrawInfo &drawInfo)
 	return true;
 }
 
+void cVAOMeshManager::SetBasePath(std::string basepath)
+{
+	this->m_basePath = basepath;
+	return;
+}
+
 
 bool cVAOMeshManager::m_LoadModelFromFile(sModelDrawInfo &drawInfo)
 {
-	// Open the file that you asked.
-	std::ifstream theFile(drawInfo.meshFileName.c_str());
+	std::string fileToLoadFullPath = drawInfo.meshFileName;
+	if (this->m_basePath != "")
+	{
+		fileToLoadFullPath = this->m_basePath + "/" + drawInfo.meshFileName;
+	}
 
-	// if ( theFile.is_open() == false )
+	// Open the file that you asked.
+	std::ifstream theFile(fileToLoadFullPath.c_str());
 	if (!theFile.is_open())			// More "c" or "C++" ish
 	{
 		//std::cout << "Didn't open file" << std::endl;

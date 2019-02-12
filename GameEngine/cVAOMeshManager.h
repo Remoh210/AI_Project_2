@@ -27,7 +27,7 @@ public:
 
 	// Looks up draw info by name (meshFileName)			
 	bool FindDrawInfoByModelName(sModelDrawInfo &drawInfo);
-
+	void SetBasePath(std::string basepath);
 	void ShutDown(void);
 
 	std::string GetLastError(bool bClear = true);
@@ -46,7 +46,7 @@ private:
 	bool m_LoadDrawInfo_Into_VAO(sModelDrawInfo &drawInfo,
 		unsigned int shaderProgramID);
 
-
+	std::string m_basePath;
 	// This holds the model information
 	std::map< std::string /*model name*/, sModelDrawInfo > m_mapModel_to_VAOID;
 

@@ -13,6 +13,7 @@
 void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID )
 {
 
+	pTheVAOMeshManager->SetBasePath("assets/models");
 
 	sModelDrawInfo sphereInfo;
 	sphereInfo.meshFileName = "Sphere_320.ply";			// "Sphere_320_faces_xyz.ply";

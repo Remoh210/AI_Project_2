@@ -271,6 +271,43 @@
     <None Include="assets\shaders\vertex01.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ItemGroup>
+    <MyCopyFiles Include="$(TargetDir)$(MsBuildProjectName).exe;$(ProjectDir)freetype271MT.dll"/>
+	<MyCopyFiles Include="$(ProjectDir)\assets\**\*.*"/>
+	<MyCopyFiles Include="$(ProjectDir)\config\**\*.*"/>
+	<MyCopyFiles Include="$(ProjectDir)\scenes\**\scene1.json"/>
+	<MyCopyFiles Include="$(ProjectDir)\localization\**\*.*"/>
+</ItemGroup>
+
+
+
+<PropertyGroup>
+    <MyFolderName>MyAutomatedOutput\exe</MyFolderName>
+</PropertyGroup>
+
+<Target Name="automation">
+    <Message Text="Running automation..."/>
+    <Message Text="My Copy Files Are: @(MyCopyFiles)"/>
+    <Message Text="Copying files..." />
+    <!--<Copy SourceFiles="@(MyCopyFiles)" DestinationFolder="$(TargetDir)$(MyFolderName)" />-->
+</Target>
+
+
+  <!-- <ItemGroup> -->
+  <!-- <ZipFiles Include="**\*.*" Exclude="*.zip" /> -->
+  <!-- </ItemGroup> -->
+  
+  <Target Name="AfterBuild">
+  <Zip Files="@(MyCopyFiles)" WorkingDirectory="$(TargetDir)"
+                ZipFileName="C:\Users\Nyan\Desktop\Project.zip" />
+  </Target>
+  
+<!-- <Target Name="AfterBuild"> -->
+  <!-- <Zip OutputFilename="C:\Users\Nyan\Desktop\Project.zip" Files="@(MyCopyFiles)" /> -->
+<!-- </Target> -->
+
+
 </Project>

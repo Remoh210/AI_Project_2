@@ -242,6 +242,7 @@ bool cSceneManager::loadScene(std::string filename) {
 	vec_pObjectsToDraw.clear();
 	//LightManager->vecLights.clear();
 	::g_pTheTextureManager->SetBasePath("assets/textures");
+	::g_pTheVAOMeshManager->SetBasePath("assets/models");
 	rapidjson::Document doc;
 	FILE* fp = fopen(fileToLoadFullPath.c_str(), "rb"); // non-Windows use "r"
 	char readBuffer[65536];
