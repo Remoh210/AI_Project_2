@@ -1,0 +1,186 @@
+﻿
+{
+    "English": {
+        "Main": [
+            "1.Settings",
+            "2.About",
+            "3.Controls",
+            "4.Enemy types"
+        ],
+        "Settings": [
+            "1.Language",
+            "2.Window size"
+        ],
+        "language": [
+            "1.English",
+            "2.Japanese",
+            "3.Ukrainian",
+            "4.Spanish",
+            "5.Polish"
+        ],
+        "Window" : [
+          "1.Would be possible to change size here"
+        ],
+        "About" : [
+          "This game was made for AI class",
+          "Menu was made for Config & Development class"
+        ],
+        "Controls" : [
+          "Accelerate - Arrow UP.",
+          "Steering - Arrow LEFT & RIGHT.",
+          "Shoot - space key."
+        ],
+        "Enemy" : [
+          "Red - approaching, keeping distance, shooting.",
+          "Yellow - wandering.",
+          "Green - seeking and fleeing if you face him.",
+          "Blue - pursuing and evading from lasers."
+        ]
+      },
+    "Japanese": {
+        "Main": [
+            "1.設定",
+            "2.アプリについて",
+            "3.コントロール",
+            "4.エネミータイプ"
+        ],
+        "Settings": [
+            "1.言語",
+            "2.ウィンドウ解像度"
+        ],
+        "language": [
+            "1.英語 (English)",
+            "2.日本語 (Japanese)",
+            "3.ウクライナ語 (Ukrainian)",
+            "4.スペイン語 (Spanish)",
+            "5. ポーランド語 (Polish)"
+        ],
+        "Window" : [
+          "1.ウィンドウ解像度設定"
+        ],
+        "About" : [
+          "このゲームはAI授業の宿題",
+          "メニューはコンフィグレーション授業の宿題"
+        ],
+        "Controls" : [
+          "加速 - 矢印キーUP",
+          "ステアリング - 左右のキー",
+          "シュート - スペースキー"
+        ],
+        "Enemy" : [
+          "赤　接近、距離の維持、射撃。",
+          "黄色い　さまよう。",
+          "緑 プレイヤーが彼に直面しているのであれば、逃走中。",
+          "青 レーザーを追求し、そこから回避する"
+        ]
+    },
+    "Ukrainian": {
+        "Main": [
+          "1.Налаштування",
+          "2.Про гру",
+          "3.Контролі ",
+          "4.Типи ворогів"
+        ],
+        "Settings": [
+          "1.Мова",
+          "2.Розмір вікна"
+        ],
+        "language": [
+          "1.Англійська",
+          "2.Японська",
+          "3.Українська",
+          "4.Іспанська",
+          "5.Польська"
+        ],
+        "Window" : [
+          "1.Тут можна будє змінити розмір"
+        ],
+        "About" : [
+          "Ця гра була створена для класу AI",
+          "Меню було створено для класу Config & Development"
+        ],
+        "Controls" : [
+          "Прискорення - стрілка вгору.",
+          "Рульове управління - Стрілка вліво і вправо",
+          "Стріляти - пробіл."
+        ],
+        "Enemy" : [
+          "Червоний - наближається, зберігає відстань, стріляє.",
+          "Жовтий - блукаючий",
+          "Зелений - шукає і втікає, якщо ви поглянете на нього."
+        ]
+    },
+    "Polish": {
+        "Main": [
+          "1.Ustawienia",
+          "2.O gre",
+          "3.Sterownica",
+          "4.Typy wroga"
+        ],
+        "Settings": [
+          "1.Język",
+          "2.Rozmiar okna"
+        ],
+        "language": [
+          "1.Język angielski",
+          "2.Język japoński",
+          "3.Ukraiński",
+          "4.Hiszpański",
+          "5.Polskie"
+        ],
+        "Window" : [
+          "1.Byłoby możliwe zmienić rozmiar tutaj"
+        ],
+        "About" : [
+          "Ta gra została stworzona dla klasy AI",
+          "Menu zostało stworzone dla klasy Config & Development"
+        ],
+        "Controls" : [
+          "Accelerate - Arrow UP.",
+          "Sterowanie - Strzałka W LEWO I PRAWO.",
+          "Strzelaj - klawisz spacji"
+        ],
+        "Enemy" : [
+          "Czerwony - zbliżanie się, utrzymywanie dystansu, strzelanie.",
+          "Żółty - wędrówki.",
+          "Zielony - szukając i uciekając, jeśli spojrzysz na niego"
+        ]
+    },
+    "Spanish": {
+        "Main": [
+          "1.Configuraciones ",
+          "2.Acerca de",
+          "3.Controles ",
+          "4.Tipos de enemigos"
+        ],
+        "Settings": [
+          "1.Idioma",
+          "2.Tamaño de ventana"
+        ],
+        "language": [
+          "1.Inglés",
+          "2.Japonés",
+          "3.Ucranio",
+          "4.Español",
+          "5.Polaco"
+        ],
+        "Window" : [
+          "1.Sería posible cambiar el tamaño aquí"
+        ],
+        "About" : [
+          "Este juego fue hecho para la clase de inteligencia artificial",
+          "El menú fue hecho para la clase Config & Development"
+        ],
+        "Controls" : [
+          "Acelerar - Flecha ARRIBA",
+          "Dirección - Flecha IZQUIERDA Y DERECHA",
+          "Disparar - tecla de espacio"
+        ],
+        "Enemy" : [
+          "Rojo - acercándose, manteniendo la distancia, disparando",
+          "Amarillo - errante",
+          "Verde - buscando y huyendo si te enfrentas a él",
+          "Azul: perseguir y evadir los láseres"
+        ]
+    }
+  }

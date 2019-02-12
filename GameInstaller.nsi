@@ -60,11 +60,12 @@
 ;--------------------------------
 ;Installer Sections
 
-Section "Dummy Section" SecDummy
+Section "Game files(required)" SecGameFiles
+	SectionIn RO
 
   SetOutPath "$INSTDIR"
 
-  File /r "Project\*"
+  ;File /r "Project\*"
   
   ;Store installation folder
   WriteRegStr HKCU "Software\Modern UI Test" "" $INSTDIR
@@ -82,6 +83,10 @@ Section "Dummy Section" SecDummy
 
 SectionEnd
 
+Section /o "Additional files" SecModules
+  SetOutPath "$INSTDIR"
+  CreateDirectory $INSTDIR\modules
+SectionEnd
 ;--------------------------------
 ;Descriptions
 
