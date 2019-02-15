@@ -4,26 +4,24 @@
 
 ;--------------------------------
 ;Include Modern UI
-
   !include "MUI2.nsh"
   !addplugindir "nsis_plugins"
- ; !include "zipdll.nsh"
 ;--------------------------------
 ;General
-  !define MUI_WELCOMEPAGE_TEXT "Game made for AI class$\r$\nMenu made for configuration project 1$\r$\nInstaller made for configuration project."
+  !define MUI_WELCOMEPAGE_TEXT "GDP Bondarenko Bogdan$\r$\Game made for AI class$\r$\nMenu made for configuration project 1$\r$\nInstaller made for configuration project."
   ;!insertmacro MUI_PAGE_LICENSE "1.txt"
   ;Name and file
   Name "X-Wing"
   OutFile "X-Wing_Installer.exe"
 
   ;Default installation folder
-  InstallDir "$LOCALAPPDATA\Modern UI Test"
+  InstallDir "C:\cnd\BondarenkoBogdan\x-wing"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\Modern UI Test" ""
+  ;InstallDirRegKey HKCU "Software\Modern UI Test" ""
 
   ;Request application privileges for Windows Vista
-  RequestExecutionLevel user
+  RequestExecutionLevel admin
 
 ;--------------------------------
 ;Variables
@@ -43,9 +41,10 @@
   !insertmacro MUI_PAGE_DIRECTORY
   
   ;Start Menu Folder Page Configuration
-  !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
-  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test" 
-  !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
+  
+  !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKLM" 
+  !define MUI_STARTMENUPAGE_REGISTRY_KEY "SOFTWARE\INFO6025\BONDARENKOBOGDAN" 
+  !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "x-wing"
   
   !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
   
@@ -68,6 +67,7 @@ Section
     File "Project.zip"
   SetOutpath "$INSTDIR"
     nsisunz::UnzipToLog "$PLUGINSDIR\Project.zip" "$INSTDIR"
+	RMDir /r "$INSTDIR\extra_assets"
     Pop $0
 SectionEnd
 
@@ -77,10 +77,10 @@ Section "Game files(required)" SecGameFiles
 
   SetOutPath "$INSTDIR"
 
-  ;File /r "Project\*"
   
   ;Store installation folder
-  WriteRegStr HKCU "Software\Modern UI Test" "" $INSTDIR
+  SetRegView 64
+  WriteRegStr HKLM "SOFTWARE\INFO6025\BONDARENKOBOGDAN" "" $INSTDIR
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -90,6 +90,7 @@ Section "Game files(required)" SecGameFiles
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortcut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+	CreateShortcut "$SMPROGRAMS\$StartMenuFolder\x-wing.lnk" "$INSTDIR\GameEngine.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -97,7 +98,11 @@ SectionEnd
 
 Section /o "Additional files" SecModules
   SetOutPath "$INSTDIR"
-  CreateDirectory $INSTDIR\modules
+  nsisunz::UnzipToLog /file "extra_assets\dummy1.png" "$PLUGINSDIR\Project.zip" "$INSTDIR"
+  nsisunz::UnzipToLog /file "extra_assets\dummy2.png" "$PLUGINSDIR\Project.zip" "$INSTDIR"
+  nsisunz::UnzipToLog /file "extra_assets\dummy3.png" "$PLUGINSDIR\Project.zip" "$INSTDIR"
+  nsisunz::UnzipToLog /file "extra_assets\dummy4.png" "$PLUGINSDIR\Project.zip" "$INSTDIR"
+  nsisunz::UnzipToLog /file "extra_assets\dummy5.png" "$PLUGINSDIR\Project.zip" "$INSTDIR"
 SectionEnd
 ;--------------------------------
 ;Descriptions
@@ -120,6 +125,7 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\config"
   RMDir /r "$INSTDIR\localization"
   RMDir /r  "$INSTDIR\scenes"
+  RMDir /r "$INSTDIR\extra_assets"
   Delete "$INSTDIR\GameEngine.exe"
   Delete "$INSTDIR\freetype271MT.dll"
   Delete "$INSTDIR\Uninstall.exe"
@@ -130,8 +136,9 @@ Section "Uninstall"
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\x-wing.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
-  
-  DeleteRegKey /ifempty HKCU "Software\Modern UI Test"
+  SetRegView 64
+  DeleteRegKey HKLM "SOFTWARE\INFO6025"
 
 SectionEnd

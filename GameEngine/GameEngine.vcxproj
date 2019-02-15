@@ -274,40 +274,28 @@
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  
   <ItemGroup>
-    <MyCopyFiles Include="$(TargetDir)$(MsBuildProjectName).exe;$(ProjectDir)freetype271MT.dll"/>
-	<MyCopyFiles Include="$(ProjectDir)\assets\**\*.*"/>
-	<MyCopyFiles Include="$(ProjectDir)\config\**\*.*"/>
-	<MyCopyFiles Include="$(ProjectDir)\scenes\**\scene1.json"/>
-	<MyCopyFiles Include="$(ProjectDir)\localization\**\*.*"/>
+    <MyZipFiles Include="$(TargetDir)$(MsBuildProjectName).exe;$(ProjectDir)freetype271MT.dll"/>
+	<MyZipFiles Include="$(ProjectDir)\assets\**\*.*"/>
+	<MyZipFiles Include="$(ProjectDir)\config\**\*.*"/>
+	<MyZipFiles Include="$(ProjectDir)\scenes\**\scene1.json"/>
+	<MyZipFiles Include="$(ProjectDir)\localization\**\*.*"/>
+	<MyZipFiles Include="$(ProjectDir)\extra_assets\**\*.*"/>
 </ItemGroup>
 
-
+<ItemGroup>
+        <MyCopyFiles Include="NSIS_INSTALLER\**\*.*" />
+</ItemGroup>
 
 <PropertyGroup>
     <MyFolderName>MyAutomatedOutput\exe</MyFolderName>
 </PropertyGroup>
 
-<Target Name="automation">
-    <Message Text="Running automation..."/>
-    <Message Text="My Copy Files Are: @(MyCopyFiles)"/>
-    <Message Text="Copying files..." />
-    <!--<Copy SourceFiles="@(MyCopyFiles)" DestinationFolder="$(TargetDir)$(MyFolderName)" />-->
-</Target>
-
-
-  <!-- <ItemGroup> -->
-  <!-- <ZipFiles Include="**\*.*" Exclude="*.zip" /> -->
-  <!-- </ItemGroup> -->
-  
   <Target Name="AfterBuild">
-  <Zip Files="@(MyCopyFiles)" WorkingDirectory="$(TargetDir)"
-                ZipFileName="C:\Users\Nyan\Desktop\bytytyt\Project.zip" />
+	<Zip Files="@(MyZipFiles)" WorkingDirectory="$(TargetDir)"
+                ZipFileName="C:\cnd\BondarenkoBogdan\Project.zip" />
+	<Copy SourceFiles="@(MyCopyFiles)" DestinationFolder="C:\cnd\BondarenkoBogdan\%(RecursiveDir)"/>
   </Target>
-  
-<!-- <Target Name="AfterBuild"> -->
-  <!-- <Zip OutputFilename="C:\Users\Nyan\Desktop\Project.zip" Files="@(MyCopyFiles)" /> -->
-<!-- </Target> -->
-
 
 </Project>
