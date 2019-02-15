@@ -1,3 +1,9 @@
+#Important
+##Install community tasks first
+
+After msbuild GameEngine.vcprojx folder with all files will appear at C:/cnd/BondarenkBogdan.<br />
+After game installation shortcut will also appear in the start menu under folder x-wing.<br />
+
 # SimpleAI
 ## Each enemy has different behaviour
 Red - approaching, keeping distance, shooting.<br />

@@ -8,7 +8,7 @@
   !addplugindir "nsis_plugins"
 ;--------------------------------
 ;General
-  !define MUI_WELCOMEPAGE_TEXT "GDP Bondarenko Bogdan$\r$\Game made for AI class$\r$\nMenu made for configuration project 1$\r$\nInstaller made for configuration project."
+  !define MUI_WELCOMEPAGE_TEXT "GDP Bondarenko Bogdan$\r$\nGame made for AI class$\r$\nMenu made for configuration project 1$\r$\nInstaller made for configuration project 2."
   ;!insertmacro MUI_PAGE_LICENSE "1.txt"
   ;Name and file
   Name "X-Wing"
