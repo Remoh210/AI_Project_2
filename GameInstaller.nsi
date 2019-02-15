@@ -61,6 +61,16 @@
 ;--------------------------------
 ;Installer Sections
 
+Section
+  InitPluginsDir
+  SetOutpath "$PLUGINSDIR"
+    File "Project.zip"
+  SetOutpath "$INSTDIR"
+    nsisunz::Unzip "$PLUGINSDIR\Project.zip" "$INSTDIR"
+    Pop $0
+SectionEnd
+
+
 Section "Game files(required)" SecGameFiles
 	SectionIn RO
 
@@ -101,6 +111,17 @@ SectionEnd
  
 ;--------------------------------
 ;Uninstaller Section
+Section test
+	InitPluginsDir
+	; Call plug-in. Push filename to ZIP first, and the dest. folder last.
+	nsisunz::UnzipToLog "project.zip" "$INSTDIR"
+ 
+	; Always check result on stack
+	Pop $0
+	StrCmp $0 "success" ok
+	DetailPrint "$0" ;print error message to log
+	ok:
+SectionEnd
 
 Section "Uninstall"
 
