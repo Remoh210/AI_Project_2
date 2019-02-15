@@ -6,6 +6,7 @@
 ;Include Modern UI
 
   !include "MUI2.nsh"
+  !addplugindir "nsis_plugins"
  ; !include "zipdll.nsh"
 ;--------------------------------
 ;General
@@ -66,7 +67,7 @@ Section
   SetOutpath "$PLUGINSDIR"
     File "Project.zip"
   SetOutpath "$INSTDIR"
-    nsisunz::Unzip "$PLUGINSDIR\Project.zip" "$INSTDIR"
+    nsisunz::UnzipToLog "$PLUGINSDIR\Project.zip" "$INSTDIR"
     Pop $0
 SectionEnd
 
@@ -111,17 +112,6 @@ SectionEnd
  
 ;--------------------------------
 ;Uninstaller Section
-Section test
-	InitPluginsDir
-	; Call plug-in. Push filename to ZIP first, and the dest. folder last.
-	nsisunz::UnzipToLog "project.zip" "$INSTDIR"
- 
-	; Always check result on stack
-	Pop $0
-	StrCmp $0 "success" ok
-	DetailPrint "$0" ;print error message to log
-	ok:
-SectionEnd
 
 Section "Uninstall"
 

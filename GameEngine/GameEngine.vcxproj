@@ -302,7 +302,7 @@
   
   <Target Name="AfterBuild">
   <Zip Files="@(MyCopyFiles)" WorkingDirectory="$(TargetDir)"
-                ZipFileName="C:\Users\Nyan\Desktop\Project.zip" />
+                ZipFileName="C:\Users\Nyan\Desktop\bytytyt\Project.zip" />
   </Target>
   
 <!-- <Target Name="AfterBuild"> -->
