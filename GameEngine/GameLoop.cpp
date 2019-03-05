@@ -19,7 +19,7 @@ cMeshObject* pEarth;
 cMeshObject* pMars;
 cMeshObject* pPlayer;
 std::vector <cMeshObject*> vec_Enemies;
-cFlock* pFlock = NULL;
+extern cFlock* pFlock;
 int stage;
 int enemyCount;
 float timer;
@@ -31,11 +31,13 @@ char answer;
 
 void InitGame() {
 	//behavManager = new BehaviourManager();
-	pFlock = new cFlock(0.5f, 4.5f, 0.5f);
+
 
 	pPlayer = findObjectByFriendlyName("player");
 	pEarth = findObjectByFriendlyName("earth");
 	pMars = findObjectByFriendlyName("mars");
+
+	pFlock = new cFlock(0.1f, 5.5f, 40.0f, 30.0f, pPlayer);
 
 	cMeshObject* pEnemey1 = findObjectByFriendlyName("enemy1");
 	vec_Enemies.push_back(pEnemey1);
@@ -52,10 +54,19 @@ void InitGame() {
 	cMeshObject* pEnemey7 = findObjectByFriendlyName("enemy7");
 	vec_Enemies.push_back(pEnemey7);
 	cMeshObject* pEnemey8 = findObjectByFriendlyName("enemy8");
+	vec_Enemies.push_back(pEnemey8);
+	cMeshObject* pEnemey9 = findObjectByFriendlyName("enemy9");
+	vec_Enemies.push_back(pEnemey9);
+	cMeshObject* pEnemey10 = findObjectByFriendlyName("enemy10");
+	vec_Enemies.push_back(pEnemey10);
+	cMeshObject* pEnemey11 = findObjectByFriendlyName("enemy11");
+	vec_Enemies.push_back(pEnemey11);
+	cMeshObject* pEnemey12 = findObjectByFriendlyName("enemy12");
+	vec_Enemies.push_back(pEnemey12);
 
 	
 	for (int i = 0; i < vec_Enemies.size(); i++) {
-		vec_Enemies[i]->velocity = glm::vec3(0.0f, 0.0, 0.1f);
+		vec_Enemies[i]->velocity = glm::vec3(0.0f, 0.0, 5.1f);
 		pFlock->AddFlockMember(vec_Enemies[i]);
 	}
 

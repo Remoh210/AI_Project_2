@@ -6,16 +6,32 @@
 
 #include <glm/glm.hpp>
 
+enum eFormations
+{
+	SQUERE,
+	CIRCLE,
+	LINE,
+	ROWS,
+	V,
+	UNKNOWN
+
+};
+
+
 class cFlock
 {
 public:
 	cFlock(void);
-	cFlock(float cohesionWeight, float separationWeight, float alignmentWeight);
+	cFlock(float cohesionWeight, float separationWeight, float maxSpeed, float maxForce, cMeshObject* target);
 	virtual ~cFlock(void);
 
 	void AddFlockMember(cMeshObject* entity);
 	void RemoveFlockMember(cMeshObject* entity);
+	void setFormation(eFormations type);
 
+	float cohesionWeight;
+	//	float alignmentWeight;
+	float separationWeight;
 	void CalculateSteering(void);
 
 private:
@@ -31,10 +47,13 @@ private:
 	glm::vec3 cohesion;
 	glm::vec3 separation;
 	glm::vec3 alignment;
+	eFormations mFormation;
 
-	float cohesionWeight;
-	float alignmentWeight;
-	float separationWeight;
+	float mMaxForce;
+	float mMaxSpeed;
+
+	std::vector<glm::vec3> vec_positions;
+	cMeshObject* mTarget;
 };
 
 #endif

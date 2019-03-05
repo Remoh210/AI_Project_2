@@ -4,13 +4,14 @@
 #include "Camera.h"
 #include "cSceneManager.h"
 #include "shoot.h"
+#include "cFlock.h"
 //#include <vector>
 #include <iostream>
 //include "TextureCTextureFromBMP.h"
 float speed = 50.0f;
 int index = 0;
 // This has all the keyboard, mouse, and controller stuff
-
+cFlock* pFlock = NULL;
 extern sLight* pTheOneLight;	//  = NULL;
 extern cLightManager* LightManager;
 int lightIndex = 0;
@@ -62,7 +63,39 @@ void key_callback( GLFWwindow* window,
 		
 	}
 
+	if (key == GLFW_KEY_F && action == GLFW_PRESS)
+	{
+		//pFlock->cohesionWeight += 2.0f;
+		pFlock->separationWeight -= 2.0f;
+		//shoot(player, 2.0f);
+	}
+	if (key == GLFW_KEY_G && action == GLFW_PRESS)
+	{
+		pFlock->separationWeight += 2.0f;
 
+	}
+	if (key == GLFW_KEY_P && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(V);
+
+	}
+	if (key == GLFW_KEY_O && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(CIRCLE);
+
+	}
+	if (key == GLFW_KEY_L && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(LINE);
+
+	}
+	if (key == GLFW_KEY_Y && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(UNKNOWN);
+
+	}
+
+	
 
 	//SAVE MODELS
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
@@ -104,8 +137,9 @@ void key_callback( GLFWwindow* window,
 		else
 		{
 			TextRend.setState(CLOSE);
+			
 		}
-		
+		camera.b_controlledByScript = !camera.b_controlledByScript;
 	}
 
 
@@ -425,18 +459,18 @@ void ProcessAsynKeys(GLFWwindow* window)
 		// Note: The "== GLFW_PRESS" isn't really needed as it's actually "1" 
 		// (so the if() treats the "1" as true...)
 
-		//if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		//	camera.ProcessKeyboard(FORWARD, deltaTime);
-		//if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		//	camera.ProcessKeyboard(BACKWARD, deltaTime);
-		//if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		//	camera.ProcessKeyboard(LEFT, deltaTime);
-		//if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		//	camera.ProcessKeyboard(RIGHT, deltaTime);
-		//if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		//	camera.ProcessKeyboard(UP, deltaTime);
-		//if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		//	camera.ProcessKeyboard(DOWN, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			camera.ProcessKeyboard(FORWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			camera.ProcessKeyboard(BACKWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			camera.ProcessKeyboard(LEFT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			camera.ProcessKeyboard(RIGHT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			camera.ProcessKeyboard(UP, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			camera.ProcessKeyboard(DOWN, deltaTime);
 
 
 	}//if(AreAllModifiersUp(window)
