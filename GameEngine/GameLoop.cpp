@@ -31,7 +31,7 @@ char answer;
 
 void InitGame() {
 	//behavManager = new BehaviourManager();
-	pFlock = new cFlock();
+	pFlock = new cFlock(0.5f, 4.5f, 0.5f);
 
 	pPlayer = findObjectByFriendlyName("player");
 	pEarth = findObjectByFriendlyName("earth");
@@ -55,7 +55,7 @@ void InitGame() {
 
 	
 	for (int i = 0; i < vec_Enemies.size(); i++) {
-		vec_Enemies[i]->velocity = glm::vec3(0.0f, 0.1, 0.0f);
+		vec_Enemies[i]->velocity = glm::vec3(0.0f, 0.0, 0.1f);
 		pFlock->AddFlockMember(vec_Enemies[i]);
 	}
 

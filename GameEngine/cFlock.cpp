@@ -1,6 +1,7 @@
 #include "cFlock.h"
 
 #include <assert.h>
+#include "HelpFuctions.h"
 // #define LOG_SYSTEMS
 
 cFlock::cFlock(void)
@@ -65,59 +66,189 @@ void cFlock::CalculateVectors(void)
 
 void cFlock::CalculateSteering(void)
 {
-	CalculateVectors();
+	int i;
+	cMeshObject* agent;
+	glm::vec3 forceToApply(0.0f);
+	//Calculate steering and flocking forces for all agents
+	for (i = mFlockMembers.size() - 1; i >= 0; i--) {
+		agent = mFlockMembers[i];
 
-	glm::vec3 steering;
-	for (std::vector<cMeshObject*>::iterator itMember = mFlockMembers.begin();
-		itMember != mFlockMembers.end(); itMember++)
-	{
-		GetSteeringFor(*itMember, steering);
+		//Work out our behaviours
+		glm::vec3 seek = Seek(agent, glm::vec3(0.0f));
+		glm::vec3 separation;
+		GetSteeringFor(agent, separation);
+		glm::vec3 curCohesion;
+		GetCohesion(agent, curCohesion);
+		glm::vec3 alignment;
+		alingment(agent, alignment);
+		
 
-		int breakpoint = 0;
-
-		(*itMember)->accel = steering;
+		//Combine them to come up with a total force to apply, decreasing the effect of cohesion
+		forceToApply = seek + separation + curCohesion * 0.1f; //+ alignment;
+		agent->accel = forceToApply;
 	}
+
+	//Move agents based on forces being applied (aka physics)
+	//for (i = mFlockMembers.size() - 1; i >= 0; i--) {
+	//	agent = mFlockMembers[i];
+	//	agent->accel = forceToApply;
+	//	//Apply the force
+	//	//agent.velocity = agent.velocity.plus(agent.forceToApply.mul(dt));
+
+	//	////Cap speed as required
+	//	//var speed = agent.velocity.length();
+	//	//if (speed > agent.maxSpeed) {
+	//	//	agent.velocity = agent.velocity.mul(agent.maxSpeed / speed);
+	//	//}
+
+	//	////Calculate our new movement angle
+	//	//agent.rotation = agent.velocity.angle();
+
+	//	////Move a bit
+	//	//agent.position = agent.position.plus(agent.velocity.mul(dt));
+	//}
 }
 
 void cFlock::GetSteeringFor(cMeshObject* member, glm::vec3 &flockSteering)
 {
-	glm::vec3 forward = glm::normalize(member->velocity);
-	float sizeMinusOne = mFlockMembers.size() - 1;
-
-	if (mFlockMembers.size() < 2)
-	{
-		flockSteering = forward;
+	glm::vec3 totalForce = glm::vec3(0.0f);
+	int neighboursCount = 0;
+	glm::vec3 memPos = member->position;
+	//for each agent
+	for (int i = 0; i < mFlockMembers.size(); i++) {
+		cMeshObject* a = mFlockMembers[i];
+		//that is not us
+		if (a != member) {
+			float distance = glm::distance(member->position, a->position);
+			//that is within the distance we want to separate from
+			if (distance < separationWeight && distance > 0) {
+				//Calculate a Vector from the other agent to us
+				glm::vec3 pushForce = member->position - a->position;
+				//Scale it based on how close they are compared to our radius
+				// and add it to the sum
+				pushForce = glm::normalize(pushForce);
+				totalForce = totalForce + pushForce * 2.0f;
+				neighboursCount++;
+			}
+		}
 	}
 
-	// Calcuale cohesion vector
-	glm::vec3 cohesionVec = glm::normalize((cohesion - member->position) / sizeMinusOne - member->position) * cohesionWeight;
-
-	// Remove the current position from the separation vector to exclude the 
-	// current flock member from the sum of positions.
-	glm::vec3 separationVec = (separation - member->position);
-	separationVec /= sizeMinusOne;
-	separationVec = -glm::normalize(member->position - separationVec) * separationWeight;
-
-	// Remove the current alignment from the separation vector to exclude the
-	// current flock member from the sum of alignments;
-	glm::vec3 alignmentVec = (alignment - forward);
-	alignmentVec /= sizeMinusOne;
-	alignmentVec = glm::normalize(alignmentVec) * alignmentWeight;
-
-#ifdef LOG_SYSTEMS
-	printf("CohesionVec Mag=%0.4f\n", glm::length(cohesionVec));
-	printf("separationVec Mag=%0.4f\n", glm::length(separationVec));
-	printf("alignmentVec Mag=%0.4f\n", glm::length(alignmentVec));
-#endif
-
-	// calculate the final steering direction
-	// These three vectors should add up to a normalized vector, assuming
-	// the weight values add up to 1.
-	flockSteering = cohesionVec + separationVec + alignmentVec;
-
-	if (glm::length(flockSteering) == 0)
-	{
-		flockSteering = forward;
+	if (neighboursCount == 0) {
+		flockSteering = glm::vec3(0.0f);
+		return;
 	}
+	if (totalForce == glm::vec3(0.0f))
+	{
+		flockSteering = glm::vec3(0.0f);
+		return;
+	}
+
+	//Normalise the force back down and then back up based on the maximum force
+	totalForce = glm::normalize(totalForce);
+	totalForce = totalForce * (float)neighboursCount;
+	//mul(agent.maxForce);
+	
+	flockSteering = totalForce * 3.0f;
+}
+
+
+glm::vec3 cFlock::Seek(cMeshObject* agent, glm::vec3 target)
+{
+
+
+
+	glm::vec3 desired = target - agent->position;
+	//normalize it and scale by mMaxSpeed
+	desired = glm::normalize(desired) * 2.0f;
+	float d = glm::length(desired);
+	if (d < 20.0f) {
+		float m = map(d, 0, 10, 0, 6.0f);
+		desired = glm::normalize(desired) * m;
+	}
+	else {
+		desired = glm::normalize(desired) * 6.0f /*mMaxSpeed*/;
+	}
+
+	glm::vec3 steering = desired - agent->velocity;
+
+	if (glm::length(steering) > 5.0f /*mMaxForce*/) {
+		steering = glm::normalize(steering) * 5.0f /*mMaxForce*/;
+	}
+	//steering = glm::normalize(desired) * mMaxForce;
+	return steering;
+
+	//glm::mat4 rot = glm::inverse(glm::lookAt(agent->position, agent->position + agent->velocity, glm::vec3(0.0f, 1.0f, 0.0f)));
+	//agent->m_meshQOrientation = glm::quat(rot);
+
+}
+
+
+
+void cFlock::GetCohesion(cMeshObject* member, glm::vec3 &FlockCohesion)
+{
+	//Start with just our position
+	glm::vec3 centerOfMass = member->position;
+	int neighboursCount = 1;
+
+	for (int i = 0; i < mFlockMembers.size(); i++) {
+		cMeshObject* a = mFlockMembers[i];
+		if (a != member) {
+			float distance = glm::distance(member->position, a->position);
+			if (distance < cohesionWeight) {
+				//sum up the position of our neighbours
+				centerOfMass = centerOfMass + a->position;
+				neighboursCount++;
+			}
+		}
+	}
+
+	if (neighboursCount == 1) {
+		FlockCohesion = glm::vec3(0.0f);
+		return;
+	}
+
+	//Get the average position of ourself and our neighbours
+
+	centerOfMass = glm::normalize(centerOfMass);
+	centerOfMass = centerOfMass * (float)neighboursCount;
+	//seek that position
+	FlockCohesion = Seek(member, centerOfMass);
+	return;
+}
+
+
+
+void cFlock::alingment(cMeshObject* member, glm::vec3 &FlockAlingment)
+{
+		glm::vec3 averageHeading(0.0f);
+		int neighboursCount = 0;
+
+		//for each of our neighbours (including ourself)
+		for (int i = 0; i < mFlockMembers.size(); i++) {
+			cMeshObject* a = mFlockMembers[i];
+			float distance = glm::distance(member->position, a->position);
+			//That are within the max distance and are moving
+			if (distance < cohesionWeight && glm::length(a->velocity) > 0) {
+				//Sum up our headings
+				averageHeading = averageHeading + glm::normalize(a->velocity);
+				neighboursCount++;
+			}
+		}
+
+		if (neighboursCount == 0) {
+			FlockAlingment = glm::vec3(0.f);
+			return;
+		}
+
+		//Divide to get the average heading
+		averageHeading = glm::normalize(averageHeading);
+		averageHeading = averageHeading * (float)neighboursCount;
+
+		//Steer towards that heading
+		glm::vec3 desired = averageHeading * 6.0f;
+		glm::vec3 force = desired - member->velocity;
+		float idk = 5.0f / 6.0f;
+		FlockAlingment =  force * idk;
+		return;
 }
 

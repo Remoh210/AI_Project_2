@@ -22,6 +22,9 @@ private:
 
 	void CalculateVectors(void);
 	void GetSteeringFor(cMeshObject* member, glm::vec3 &flockSteering);
+	void GetCohesion(cMeshObject* member, glm::vec3 &FlockCohesion);
+	glm::vec3 Seek(cMeshObject* agent, glm::vec3 target);
+	void alingment(cMeshObject* member, glm::vec3 &FlockAlingment);
 
 	std::vector<cMeshObject*> mFlockMembers;
 
