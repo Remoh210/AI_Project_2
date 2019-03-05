@@ -97,6 +97,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Behavior\Flocking">
+      <UniqueIdentifier>{1ff53b41-3379-4df5-b17e-4c5716488cca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -249,6 +252,9 @@
     <ClCompile Include="GameLoop.cpp">
       <Filter>SimpleGame</Filter>
     </ClCompile>
+    <ClCompile Include="cFlock.cpp">
+      <Filter>Behavior\Flocking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -391,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="shoot.h">
       <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="cFlock.h">
+      <Filter>Behavior\Flocking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
