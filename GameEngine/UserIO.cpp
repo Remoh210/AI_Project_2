@@ -89,6 +89,16 @@ void key_callback( GLFWwindow* window,
 		pFlock->setFormation(LINE);
 
 	}
+	if (key == GLFW_KEY_T && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(SQUERE);
+
+	}
+	if (key == GLFW_KEY_R && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(ROWS);
+
+	}
 	if (key == GLFW_KEY_Y && action == GLFW_PRESS)
 	{
 		pFlock->setFormation(UNKNOWN);

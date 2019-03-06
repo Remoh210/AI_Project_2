@@ -3,7 +3,35 @@
 #include <assert.h>
 #include "HelpFuctions.h"
 #include <math.h> 
+#include "globalStuff.h"
 // #define LOG_SYSTEMS
+
+//help function
+glm::vec3 getModelForward(cMeshObject* model)
+{
+	//glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	//	glm::quat qRot = model->getQOrientation();
+	//	glm::mat4 matRot = glm::mat4(qRot);
+	//	glm::vec4 vecForwardDirection_WorldSpace = matRot * vecForwardDirection_ModelSpace;
+	//	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+	//	return glm::vec3(vecForwardDirection_WorldSpace);
+
+
+	glm::vec4 noseContactPoint_ModelSpace = glm::vec4(0.0f, 0.0f, -0.1f, 1.0f);
+	glm::mat4 matTransform = glm::mat4(1.0f);
+	glm::mat4 matTranslation = glm::translate(glm::mat4(1.0f),
+		model->position);
+	matTransform = matTransform * matTranslation;		// matMove
+	glm::quat qRotation = model->getQOrientation();
+	glm::mat4 matQrotation = glm::mat4(qRotation);
+	matTransform = matTransform * matQrotation;
+
+	glm::vec4 noseContactPoint_WorldSpace = glm::vec4(0.0f);
+	noseContactPoint_WorldSpace = matTransform * noseContactPoint_ModelSpace;
+	return glm::vec3(noseContactPoint_WorldSpace);
+
+}
+
 
 cFlock::cFlock(void)
 	: cohesionWeight(1.0f / 3.0f)
@@ -67,16 +95,24 @@ void cFlock::CalculateSteering(void)
 		switch (mFormation)
 		{
 		case SQUERE:
+			if (i != 11) {
+				seek = Seek(agent, leader->position + vec_positions[i]);
+			}
+			else if (i == 11)
+			{
+				seek = Seek(agent, mTarget->position);
+			}
+
 			break;
 		case CIRCLE:
-			if (i != 11) {
+			if (i == 11) {
 				seek = Seek(agent, leader->position + vec_positions[i]);
 			}
 			seek += Seek(agent, mTarget->position);
 			break;
 		case LINE:
 			if (i != 11) {
-				seek = Seek(agent, leader->position + vec_positions[i]);
+				seek = Seek(agent, getModelForward(leader) - vec_positions[i]);
 			}
 			else if(i == 11)
 			{
@@ -85,6 +121,13 @@ void cFlock::CalculateSteering(void)
 
 			break;
 		case ROWS:
+			if (i != 11) {
+				seek = Seek(agent, leader->position + vec_positions[i]);
+			}
+			else if (i == 11)
+			{
+				seek = Seek(agent, mTarget->position);
+			}
 			break;
 		case V:
 			if (i != 11) {
@@ -266,9 +309,32 @@ void cFlock::setFormation(eFormations type)
 	switch (type)
 	{
 	case SQUERE:
+		mFormation = SQUERE;
+		vec_positions.clear();
+		glm::vec3 pos(0.0f);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (i == 0 && j == 0) 
+				{
+					continue;
+					pos.x += 10.0f;
+				}
+				else
+				{
+					pos.x += 10.0f;
+					vec_positions.push_back(pos);
+				}
+
+			}
+			pos.x = 0.0f;
+			pos.z -= 10.0f;
+			//vec_positions.push_back(pos);
+
+		}
 		break;
 	case CIRCLE:
 		mFormation = CIRCLE;
+		vec_positions.clear();
 		for (int i = 0; i < mFlockMembers.size() - 1; i++) {
 			float angle = i * 3.14f * 2 / (mFlockMembers.size() - 1);
 			glm::vec3 pos = glm::vec3(cos(angle), 0, sin(angle)) * radius;
@@ -285,6 +351,21 @@ void cFlock::setFormation(eFormations type)
 		}
 		break;
 	case ROWS:
+		mFormation = ROWS;
+		vec_positions.clear();
+		curPos = glm::vec3(0.0f);
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				if (i == 0 && j == 0) { continue; }
+
+				vec_positions.push_back(curPos);
+				curPos.x += 10.0f;
+			}
+			curPos.x = 0.0f;
+			curPos.z = -10.0f;
+		}
 		break;
 	case V:
 		mFormation = V;
@@ -316,3 +397,5 @@ void cFlock::setFormation(eFormations type)
 		break;
 	}
 }
+
+
