@@ -82,7 +82,6 @@ void cFlock::CalculateSteering(void)
 	glm::vec3 forceToApply(0.0f);
 
 
-
 	//Calculate steering and flocking forces for all agents
 	for (i = mFlockMembers.size() - 1; i >= 0; i--) {
 		agent = mFlockMembers[i];
@@ -98,10 +97,10 @@ void cFlock::CalculateSteering(void)
 			if (i != 11) {
 				seek = Seek(agent, leader->position + vec_positions[i]);
 			}
-			else if (i == 11)
-			{
-				seek = Seek(agent, mTarget->position);
-			}
+			//else if (i == 11)
+			//{
+				seek += Seek(agent, mTarget->position);
+		//	}
 
 			break;
 		case CIRCLE:
@@ -317,16 +316,16 @@ void cFlock::setFormation(eFormations type)
 				if (i == 0 && j == 0) 
 				{
 					continue;
-					pos.x += 10.0f;
 				}
 				else
 				{
 					pos.x += 10.0f;
 					vec_positions.push_back(pos);
+					
 				}
 
 			}
-			pos.x = 0.0f;
+			pos.x = -10.0f;
 			pos.z -= 10.0f;
 			//vec_positions.push_back(pos);
 
