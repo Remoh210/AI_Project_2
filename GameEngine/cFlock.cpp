@@ -104,10 +104,12 @@ void cFlock::CalculateSteering(void)
 
 			break;
 		case CIRCLE:
-			if (i == 11) {
+			if (i != 11) {
 				seek = Seek(agent, leader->position + vec_positions[i]);
 			}
-			seek += Seek(agent, mTarget->position);
+			else {
+				seek += Seek(agent, mTarget->position);
+			}
 			break;
 		case LINE:
 			if (i != 11) {
