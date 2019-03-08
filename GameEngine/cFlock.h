@@ -26,28 +26,30 @@ public:
 	virtual ~cFlock(void);
 
 	void AddFlockMember(cMeshObject* entity);
-	void RemoveFlockMember(cMeshObject* entity);
 	void setFormation(eFormations type);
-
+	bool bIsStatic;
+	void SwitchStaticFlock();
+	void SwitchToLastFormation();
 	float cohesionWeight;
-	//	float alignmentWeight;
 	float separationWeight;
 	void CalculateSteering(void);
 
 private:
 
-	void CalculateVectors(void);
-	void GetSteeringFor(cMeshObject* member, glm::vec3 &flockSteering);
+	void GetSeparation(cMeshObject* member, glm::vec3 &flockSeparation);
 	void GetCohesion(cMeshObject* member, glm::vec3 &FlockCohesion);
-	glm::vec3 Seek(cMeshObject* agent, glm::vec3 target);
 	void alingment(cMeshObject* member, glm::vec3 &FlockAlingment);
+	glm::vec3 Seek(cMeshObject* agent, glm::vec3 target);
 
+
+	
 	std::vector<cMeshObject*> mFlockMembers;
 
 	glm::vec3 cohesion;
 	glm::vec3 separation;
 	glm::vec3 alignment;
 	eFormations mFormation;
+	eFormations mLastFormation;
 
 	float mMaxForce;
 	float mMaxSpeed;

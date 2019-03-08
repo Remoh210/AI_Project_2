@@ -89,10 +89,4 @@ void WanderBehaviour::update(float dt)
 }
 
 
-float RandomFloat(float a, float b) {
-	//srand(glfwGetTime());
-	float random = ((float)rand()) / (float)RAND_MAX;
-	float diff = b - a;
-	float r = random * diff;
-	return a + r;
-}
+

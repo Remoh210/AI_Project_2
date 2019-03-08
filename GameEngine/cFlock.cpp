@@ -4,32 +4,43 @@
 #include "HelpFuctions.h"
 #include <math.h> 
 #include "globalStuff.h"
-// #define LOG_SYSTEMS
 
-//help function
+
+
 glm::vec3 getModelForward(cMeshObject* model)
 {
-	//glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-	//	glm::quat qRot = model->getQOrientation();
-	//	glm::mat4 matRot = glm::mat4(qRot);
-	//	glm::vec4 vecForwardDirection_WorldSpace = matRot * vecForwardDirection_ModelSpace;
-	//	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
-	//	return glm::vec3(vecForwardDirection_WorldSpace);
+	glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	glm::quat qRot = model->getQOrientation();
+	glm::mat4 matRot = glm::mat4(qRot);
+	glm::vec4 vecForwardDirection_WorldSpace = matRot * vecForwardDirection_ModelSpace;
+	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+	return glm::vec3(vecForwardDirection_WorldSpace);
 
 
-	glm::vec4 noseContactPoint_ModelSpace = glm::vec4(0.0f, 0.0f, -0.1f, 1.0f);
-	glm::mat4 matTransform = glm::mat4(1.0f);
-	glm::mat4 matTranslation = glm::translate(glm::mat4(1.0f),
-		model->position);
-	matTransform = matTransform * matTranslation;		// matMove
-	glm::quat qRotation = model->getQOrientation();
-	glm::mat4 matQrotation = glm::mat4(qRotation);
-	matTransform = matTransform * matQrotation;
+	//glm::vec4 noseContactPoint_ModelSpace = glm::vec4(0.0f, 0.0f, -0.1f, 1.0f);
+	//glm::mat4 matTransform = glm::mat4(1.0f);
+	//glm::mat4 matTranslation = glm::translate(glm::mat4(1.0f),
+	//	model->position);
+	//matTransform = matTransform * matTranslation;		// matMove
+	//glm::quat qRotation = model->getQOrientation();
+	//glm::mat4 matQrotation = glm::mat4(qRotation);
+	//matTransform = matTransform * matQrotation;
 
-	glm::vec4 noseContactPoint_WorldSpace = glm::vec4(0.0f);
-	noseContactPoint_WorldSpace = matTransform * noseContactPoint_ModelSpace;
-	return glm::vec3(noseContactPoint_WorldSpace);
+	//glm::vec4 noseContactPoint_WorldSpace = glm::vec4(0.0f);
+	//noseContactPoint_WorldSpace = matTransform * noseContactPoint_ModelSpace;
+	//return glm::vec3(noseContactPoint_WorldSpace);
 
+}
+
+void moveToPos(cMeshObject* agent, glm::vec3 pos)
+{
+	glm::vec3 desired(0.f);
+	desired = pos - agent->position;
+	desired = glm::normalize(desired);
+	float dist = glm::distance(pos, agent->position);
+	if (dist > 0.3f) {
+		agent->position += desired * (float)deltaTime * 10.0f /*speed*/;
+	}
 }
 
 
@@ -47,6 +58,7 @@ cFlock::cFlock(float cohesionWeight, float separationWeight, float maxSpeed, flo
 	, mMaxForce(maxForce)
 	, mMaxSpeed(maxSpeed)
 {
+	bIsStatic = true;
 	mFormation = UNKNOWN;
 }
 
@@ -68,10 +80,13 @@ void cFlock::AddFlockMember(cMeshObject* entity)
 	mFlockMembers.push_back(entity);
 }
 
-void cFlock::RemoveFlockMember(cMeshObject* entity)
-{
-}
 
+
+
+void cFlock::SwitchToLastFormation(void)
+{
+	mFormation = mLastFormation;
+}
 
 
 void cFlock::CalculateSteering(void)
@@ -84,6 +99,7 @@ void cFlock::CalculateSteering(void)
 
 	//Calculate steering and flocking forces for all agents
 	for (i = mFlockMembers.size() - 1; i >= 0; i--) {
+
 		agent = mFlockMembers[i];
 		leader = mFlockMembers[11];
 		glm::vec3 seek = glm::vec3(0.f);
@@ -91,80 +107,97 @@ void cFlock::CalculateSteering(void)
 		glm::vec3 curCohesion = glm::vec3(0.f);
 		glm::vec3 alignment = glm::vec3(0.f);
 
-		switch (mFormation)
+		if(bIsStatic)
 		{
-		case SQUERE:
-			if (i != 11) {
-				seek = Seek(agent, leader->position + vec_positions[i]);
+			if (mFormation != UNKNOWN) {
+				if (i != 11) {
+					moveToPos(agent, vec_positions[i]);
+				}
+				else if (i == 11)
+				{
+					moveToPos(agent, glm::vec3(0.f));
+				}
 			}
-			//else if (i == 11)
-			//{
-				seek += Seek(agent, mTarget->position);
-		//	}
-
-			break;
-		case CIRCLE:
-			if (i != 11) {
-				seek = Seek(agent, leader->position + vec_positions[i]);
-			}
-			else {
-				seek += Seek(agent, mTarget->position);
-			}
-			break;
-		case LINE:
-			if (i != 11) {
-				seek = Seek(agent, getModelForward(leader) - vec_positions[i]);
-			}
-			else if(i == 11)
-			{
-				seek = Seek(agent, mTarget->position);
-			}
-
-			break;
-		case ROWS:
-			if (i != 11) {
-				seek = Seek(agent, leader->position + vec_positions[i]);
-			}
-			else if (i == 11)
-			{
-				seek = Seek(agent, mTarget->position);
-			}
-			break;
-		case V:
-			if (i != 11) {
-				seek = Seek(agent, leader->position + vec_positions[i]);
-			}
-			seek += Seek(agent, mTarget->position);
-			break;
-		case UNKNOWN:
-
-			seek = Seek(agent, mTarget->position);
-			separation;
-			GetSteeringFor(agent, separation);
-			curCohesion;
-			GetCohesion(agent, curCohesion);
-			alingment(agent, alignment);
-
-
-			break;
-		default:
-			break;
+			//continue;
 		}
+		else {
+
+
+			switch (mFormation)
+			{
+			case SQUERE:
+				if (i != 11) {
+					seek = Seek(agent, leader->position + vec_positions[i]);
+				}
+				//else if (i == 11)
+				//{
+				seek += Seek(agent, mTarget->position);
+				//	}
+
+				break;
+			case CIRCLE:
+				if (i != 11) {
+					seek = Seek(agent, leader->position + vec_positions[i]);
+				}
+				//ele {
+					seek += Seek(agent, mTarget->position);
+				//}
+				break;
+			case LINE:
+				if (i != 11) {
+					seek = Seek(agent, getModelForward(leader) - vec_positions[i]);
+				}
+				else if (i == 11)
+				{
+					seek = Seek(agent, mTarget->position);
+				}
+
+				break;
+			case ROWS:
+				if (i != 11) {
+					seek = Seek(agent, leader->position + vec_positions[i]);
+				}
+				else if (i == 11)
+				{
+					seek = Seek(agent, mTarget->position);
+				}
+				break;
+			case V:
+				if (i != 11) {
+					seek = Seek(agent, leader->position + vec_positions[i]);
+				}
+				seek += Seek(agent, mTarget->position);
+				break;
+			case UNKNOWN:
+
+				seek = Seek(agent, mTarget->position);
+				separation;
+				GetSeparation(agent, separation);
+				curCohesion;
+				GetCohesion(agent, curCohesion);
+				alingment(agent, alignment);
+
+
+				break;
+			default:
+				break;
+			}
 
 
 
 
 
-		forceToApply = seek + separation + curCohesion * 0.1f/* + alignment*/;
-		agent->accel = forceToApply;
-		glm::mat4 rot = glm::inverse(glm::lookAt(agent->position, agent->position + agent->velocity, glm::vec3(0.0f, 1.0f, 0.0f)));
-		agent->m_meshQOrientation = glm::quat(rot);
+			forceToApply = seek + separation + curCohesion  + alignment;
+			agent->accel = forceToApply;
+			glm::mat4 rot = glm::inverse(glm::lookAt(agent->position, agent->position + agent->velocity, glm::vec3(0.0f, 1.0f, 0.0f)));
+			agent->m_meshQOrientation = glm::quat(rot);
+		}
 	}
 
 
 }
 
-void cFlock::GetSteeringFor(cMeshObject* member, glm::vec3 &flockSteering)
+void cFlock::GetSeparation(cMeshObject* member, glm::vec3 &flockSeparation)
 {
 	glm::vec3 totalForce = glm::vec3(0.0f);
 	int neighboursCount = 0;
@@ -184,12 +217,12 @@ void cFlock::GetSteeringFor(cMeshObject* member, glm::vec3 &flockSteering)
 	}
 
 	if (neighboursCount == 0) {
-		flockSteering = glm::vec3(0.0f);
+		flockSeparation = glm::vec3(0.0f);
 		return;
 	}
 	if (totalForce == glm::vec3(0.0f))
 	{
-		flockSteering = glm::vec3(0.0f);
+		flockSeparation = glm::vec3(0.0f);
 		return;
 	}
 
@@ -198,7 +231,7 @@ void cFlock::GetSteeringFor(cMeshObject* member, glm::vec3 &flockSteering)
 	totalForce = totalForce * (float)neighboursCount;
 	//mul(agent.maxForce);
 	
-	flockSteering = totalForce * mMaxForce;
+	flockSeparation = totalForce * mMaxForce;
 }
 
 
@@ -242,7 +275,7 @@ void cFlock::GetCohesion(cMeshObject* member, glm::vec3 &FlockCohesion)
 		cMeshObject* a = mFlockMembers[i];
 		if (a != member) {
 			float distance = glm::distance(member->position, a->position);
-			if (distance < cohesionWeight) {
+			if (distance < 10.0f) {
 				//sum up the position of our neighbours
 				centerOfMass = centerOfMass + a->position;
 				neighboursCount++;
@@ -300,6 +333,16 @@ void cFlock::alingment(cMeshObject* member, glm::vec3 &FlockAlingment)
 		return;
 }
 
+void cFlock::SwitchStaticFlock()
+{
+	bIsStatic = !bIsStatic;
+	for(int i = 0; i < mFlockMembers.size(); i++)
+	{
+		cMeshObject* agent = mFlockMembers[i];
+		agent->bIsUpdatedByPhysics = !agent->bIsUpdatedByPhysics;
+	}
+}
+
 void cFlock::setFormation(eFormations type)
 {
 	glm::vec3 curPos(0.0f);
@@ -311,8 +354,9 @@ void cFlock::setFormation(eFormations type)
 	{
 	case SQUERE:
 		mFormation = SQUERE;
+		mLastFormation = mFormation;
 		vec_positions.clear();
-		glm::vec3 pos(0.0f);
+		curPos = glm::vec3(0.f);
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (i == 0 && j == 0) 
@@ -321,20 +365,21 @@ void cFlock::setFormation(eFormations type)
 				}
 				else
 				{
-					pos.x += 10.0f;
-					vec_positions.push_back(pos);
+					curPos.x += 10.0f;
+					vec_positions.push_back(curPos);
 					
 				}
 
 			}
-			pos.x = -10.0f;
-			pos.z -= 10.0f;
+			curPos.x = -10.0f;
+			curPos.z -= 10.0f;
 			//vec_positions.push_back(pos);
 
 		}
 		break;
 	case CIRCLE:
 		mFormation = CIRCLE;
+		mLastFormation = mFormation;
 		vec_positions.clear();
 		for (int i = 0; i < mFlockMembers.size() - 1; i++) {
 			float angle = i * 3.14f * 2 / (mFlockMembers.size() - 1);
@@ -344,6 +389,7 @@ void cFlock::setFormation(eFormations type)
 		break;
 	case LINE:
 		mFormation = LINE;
+		mLastFormation = mFormation;
 		vec_positions.clear();
 		curPos = glm::vec3(0.0f);
 		for (int i = 0; i < mFlockMembers.size() - 1; i++) {
@@ -353,23 +399,33 @@ void cFlock::setFormation(eFormations type)
 		break;
 	case ROWS:
 		mFormation = ROWS;
+		mLastFormation = mFormation;
+		vec_positions.clear();
 		vec_positions.clear();
 		curPos = glm::vec3(0.0f);
-		for (int i = 0; i < 2; i++)
-		{
-			for (int j = 0; j < 6; j++)
-			{
-				if (i == 0 && j == 0) { continue; }
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 6; j++) {
+				if (i == 0 && j == 0)
+				{
+					continue;
+				}
+				else
+				{
+					curPos.x += 10.0f;
+					vec_positions.push_back(curPos);
 
-				vec_positions.push_back(curPos);
-				curPos.x += 10.0f;
+				}
+
 			}
-			curPos.x = 0.0f;
-			curPos.z = -10.0f;
+			curPos.x = -10.0f;
+			curPos.z -= 10.0f;
+			//vec_positions.push_back(pos);
+
 		}
 		break;
 	case V:
 		mFormation = V;
+		mLastFormation = mFormation;
 		//mMaxForce *= 2.0f;
 		vec_positions.clear();
 		curPos = glm::vec3(0.0f);

@@ -37,7 +37,7 @@ void InitGame() {
 	pEarth = findObjectByFriendlyName("earth");
 	pMars = findObjectByFriendlyName("mars");
 
-	pFlock = new cFlock(0.1f, 5.5f, 40.0f, 30.0f, pPlayer);
+	pFlock = new cFlock(0.3f, 5.5f, 40.0f, 30.0f, pPlayer);
 
 	cMeshObject* pEnemey1 = findObjectByFriendlyName("enemy1");
 	vec_Enemies.push_back(pEnemey1);
@@ -66,66 +66,12 @@ void InitGame() {
 
 	
 	for (int i = 0; i < vec_Enemies.size(); i++) {
-		vec_Enemies[i]->velocity = glm::vec3(0.0f, 0.0, 5.1f);
+		//vec_Enemies[i]->velocity = glm::vec3(0.0f, 0.0, 5.1f);
+		vec_Enemies[i]->bIsUpdatedByPhysics = false;
 		pFlock->AddFlockMember(vec_Enemies[i]);
 	}
 
-	//cMeshObject* pApproachEnemy = findObjectByFriendlyName("enemy");
-	//vec_Enemies.push_back(pApproachEnemy);
-	//cMeshObject* pWanderEnemy = findObjectByFriendlyName("wanderEnemy");
-	//vec_Enemies.push_back(pWanderEnemy);
-	//cMeshObject* pWanderWaitEnemy = findObjectByFriendlyName("wanderWaitEnemy");
-	//vec_Enemies.push_back(pWanderWaitEnemy);
-	//cMeshObject* pPursueEnemy = findObjectByFriendlyName("pursueEnemy");
-	//vec_Enemies.push_back(pPursueEnemy);
-	//cMeshObject* pSeekEnemy = findObjectByFriendlyName("seekEnemy");
-	//vec_Enemies.push_back(pSeekEnemy);
-	//pDebugSphere = findObjectByFriendlyName("DebugSphere");
-
-	//pPlayer->initPos = pPlayer->position;
-	//pApproachEnemy->initPos = pApproachEnemy->position;
-	//pWanderEnemy->initPos = pWanderEnemy->position;
-	//pPursueEnemy->initPos = pPursueEnemy->position;
-	//pSeekEnemy->initPos = pSeekEnemy->position;
-
-	////Initialize Behaviours
-	//ApproachBehaviour* approach = new ApproachBehaviour(pApproachEnemy, pPlayer, 25.2f, 14.2f, 50.0f, 40.0f, 1.0f);//(Agent, Target, maxSpeed, maxForce, radius, shootRadius, shotInterval)
-	//behavManager->SetBehaviour(pApproachEnemy, approach);
-	//WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, glm::vec3(0.0f), 30.0f, -30.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
- //   behavManager->SetBehaviour(pWanderEnemy, wander);	
-	//WanderBehaviour* wanderWait = new WanderBehaviour(pWanderWaitEnemy, 22.2f, 10.2f, 3.0f, glm::vec3(0.0f), 30.0f, -30.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-	//behavManager->SetBehaviour(pWanderWaitEnemy, wanderWait);
-	//PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pPursueEnemy, pPlayer, 32.0f, 15.2f, 40.0f);//(Agent, Target, maxSpeed, maxForce, evadeDist)
-	//behavManager->SetBehaviour(pPursueEnemy, PursueAndEvade);
-	//SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pSeekEnemy, pPlayer, 20.2f, 10.0f, 5.0f, 45.0f, 45.0f); //(Agent, Target, maxSpeed, maxForce, seekDist, Angle, fleeDist)
-	//behavManager->SetBehaviour(pSeekEnemy, seekAndFlee);
-	////FleeBehaviour* flee = new FleeBehaviour(pEnemy, pPlayer, 7.2f, 4.2f);
-	////behavManager->SetBehaviour(pEnemy, flee);
-	//timer = 0.0f;
-	//enemyCount = 0;
-	//respawnEnemies = false;
-	//stage = 0;
-	//game_is_over = false;
-
-
-	//
-	////All Enemies exept 1 are dead at the start
-	//for (int i = 1; i < vec_Enemies.size(); i++)
-	//{
-
-	//	//vec_Enemies[i]->position = vec_Enemies[i]->initPos;
-	//	vec_Enemies[i]->bIsUpdatedByPhysics = false;
-	//	vec_Enemies[i]->bIsVisible = false;
-	//	vec_Enemies[i]->time_dead = 0.0f;
-	//}
-
-
-
-
-	//std::cout << vec_Enemies[enemyCount]->friendlyName << " has appeared!" << std::endl;;
-	//std::cout << "He will follow you and keep distance, but if you decide to approach him, he will shoot!";
-	//std::cout << std::endl;
-	//std::cout << std::endl;
+	
 
 
 	camera.b_controlledByScript = true;

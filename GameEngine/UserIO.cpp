@@ -105,6 +105,17 @@ void key_callback( GLFWwindow* window,
 
 	}
 
+
+	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+	{
+		pFlock->SwitchStaticFlock();
+	}
+
+	if (key == GLFW_KEY_7 && action == GLFW_PRESS)
+	{
+		pFlock->SwitchToLastFormation();
+	}
+
 	
 
 	//SAVE MODELS
