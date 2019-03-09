@@ -1,4 +1,4 @@
-
+Run on Debug or Release x64
 Controls:
 FORMATIONS:
 1 - Circle
