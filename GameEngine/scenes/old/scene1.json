@@ -2,9 +2,9 @@
     "Camera": {
         "Speed": 60.0,
         "Position": [
-            0.06816279888153076,
-            127.57963562011719,
-            6.826242446899414
+            2.5318167209625246,
+            220.829652309417725,
+            253.54558563232422
         ]
     },
     "GameObjects": [
@@ -17,7 +17,7 @@
             "Wireframe": false,
             "Position": [
                 0.0,
-                -20.0,
+              -20.0,
                 0.0
             ],
             "DiffuseRGB_Alpha": [
@@ -33,10 +33,10 @@
                 100.0
             ],
             "Rotation": [
-                -0.22551187872886659,
-                -0.7565683722496033,
-                0.41088512539863589,
-                0.45604023337364199
+                -0.44972583651542666,
+                -0.2142997533082962,
+                0.13202238082885743,
+                0.856998860836029
             ],
             "Scale": [
                 4.0,
@@ -59,8 +59,8 @@
             "Wireframe": false,
             "Position": [
                 80.0,
-                -20.0,
-                -50.0
+              -20.0,
+              -50.0
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -76,9 +76,9 @@
             ],
             "Rotation": [
                 0.0,
-                0.7056210041046143,
                 0.0,
-                0.7085831165313721
+                0.0,
+                1.0
             ],
             "Scale": [
                 3.0,
@@ -100,9 +100,9 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                -76.64983367919922,
+                12.0,
                 0.0,
-                56.397850036621097
+                0.0
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -118,9 +118,9 @@
             ],
             "Rotation": [
                 0.0,
-                -0.9998193979263306,
                 0.0,
-                0.018994033336639406
+                0.0,
+                1.0
             ],
             "Scale": [
                 0.5,
@@ -138,7 +138,7 @@
             "Name": "enemy1",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -180,7 +180,7 @@
             "Name": "enemy2",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -222,7 +222,7 @@
             "Name": "enemy3",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -264,7 +264,7 @@
             "Name": "enemy4",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -306,7 +306,7 @@
             "Name": "enemy5",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -348,7 +348,7 @@
             "Name": "enemy6",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -390,7 +390,7 @@
             "Name": "enemy7",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -432,7 +432,7 @@
             "Name": "enemy8",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -474,7 +474,7 @@
             "Name": "enemy9",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -516,7 +516,7 @@
             "Name": "enemy10",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -558,7 +558,7 @@
             "Name": "enemy11",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -600,7 +600,7 @@
             "Name": "enemy12",
             "Mesh": "enemy.ply",
             "Visible": true,
-            "Use_Physics": false,
+            "Use_Physics": true,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [

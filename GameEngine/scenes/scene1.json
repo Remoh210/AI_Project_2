@@ -100,9 +100,9 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                12.0,
+                -50.0,
                 0.0,
-                0.0
+                -50.0
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -562,7 +562,7 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                30.0,
+                40.0,
                 0.0,
                 -10.0
             ],
@@ -604,7 +604,7 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                40.0,
+                50.0,
                 0.0,
                 -10.0
             ],

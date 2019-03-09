@@ -37,7 +37,7 @@ void InitGame() {
 	pEarth = findObjectByFriendlyName("earth");
 	pMars = findObjectByFriendlyName("mars");
 
-	pFlock = new cFlock(0.3f, 5.5f, 40.0f, 30.0f, pPlayer);
+	pFlock = new cFlock(40.0f, 30.0f, pPlayer);
 
 	cMeshObject* pEnemey1 = findObjectByFriendlyName("enemy1");
 	vec_Enemies.push_back(pEnemey1);

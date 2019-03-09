@@ -59,71 +59,24 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_SLASH))
 	{
 
-		ManageScene(window);
+		//ManageScene(window);
+		g_pSceneManager->saveScene("level1.json");
 		
 	}
 
-	if (key == GLFW_KEY_F && action == GLFW_PRESS)
-	{
-		//pFlock->cohesionWeight += 2.0f;
-		pFlock->separationWeight -= 2.0f;
-		//shoot(player, 2.0f);
-	}
-	if (key == GLFW_KEY_G && action == GLFW_PRESS)
-	{
-		pFlock->separationWeight += 2.0f;
-
-	}
-	if (key == GLFW_KEY_P && action == GLFW_PRESS)
-	{
-		pFlock->setFormation(V);
-
-	}
-	if (key == GLFW_KEY_O && action == GLFW_PRESS)
-	{
-		pFlock->setFormation(CIRCLE);
-
-	}
-	if (key == GLFW_KEY_L && action == GLFW_PRESS)
-	{
-		pFlock->setFormation(LINE);
-
-	}
-	if (key == GLFW_KEY_T && action == GLFW_PRESS)
-	{
-		pFlock->setFormation(SQUERE);
-
-	}
-	if (key == GLFW_KEY_R && action == GLFW_PRESS)
-	{
-		pFlock->setFormation(ROWS);
-
-	}
-	if (key == GLFW_KEY_Y && action == GLFW_PRESS)
-	{
-		pFlock->setFormation(UNKNOWN);
-
-	}
 
 
-	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
-	{
-		pFlock->SwitchStaticFlock();
-	}
 
-	if (key == GLFW_KEY_7 && action == GLFW_PRESS)
-	{
-		pFlock->SwitchToLastFormation();
-	}
+
+
+
 
 	
 
 	//SAVE MODELS
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 	{
-		//saveModelInfo("Models2.txt", vec_pObjectsToDraw);
-		//saveLightInfo("lights.txt", LightManager->vecLights);
-		//findObjectByFriendlyName("player");
+
 		cMeshObject* player = findObjectByFriendlyName("player");
 		shoot(player, 2.0f);
 	}
@@ -133,151 +86,236 @@ void key_callback( GLFWwindow* window,
 		forwardSpeed = 0.0f;
 	}
 
-	//LOAD MODELS
-	if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS)
-	{
-		if (TextRend.getState() != CLOSE && TextRend.getState() != MAIN) {
-			TextRend.setState(MAIN);
-		}
-	}
 	
 
-	if (glfwGetKey(window, GLFW_KEY_K))
+
+	if (glfwGetKey(window, GLFW_KEY_R))
 	{
-		//SwitchToSolid(vec_pObjectsToDraw);
-		//TextRend->drawText( SCR_WIDTH, SCR_HEIGHT, "HELL YEAH TEXT IS HERE", 2.0f, deltaTime);
+		pFlock->separationWeight *= 1.1f;
 	}
+	if (glfwGetKey(window, GLFW_KEY_T))
+	{
+		pFlock->separationWeight *= 0.9f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_Y))
+	{
+		pFlock->cohesionWeight *= 1.1f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_U))
+	{
+		pFlock->cohesionWeight *= 0.9f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_I))
+	{
+		pFlock->alingmentWeight *= 1.1f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_O))
+	{
+		pFlock->alingmentWeight *= 0.9f;
+	}
+
+
+	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+	{
+		pFlock->SwitchStaticFlock();
+	}
+	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
+	{
+		pFlock->SwitchPathFollow();
+	}
+
+	if (key == GLFW_KEY_7 && action == GLFW_PRESS)
+	{
+		pFlock->SwitchToLastFormation();
+	}
+
+
+
+	//Formations
+
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(CIRCLE);
+
+	}
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(V);
+
+	}
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(SQUERE);
+
+	}
+	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(LINE);
+
+	}
+
+	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(ROWS);
+
+	}
+
+	if (key == GLFW_KEY_6 && action == GLFW_PRESS)
+	{
+		pFlock->SwitchStaticFlock();
+
+	}
+
+
+	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
+	{
+		pFlock->ReversePath();
+
+	}
+
+	if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+	{
+		pFlock->SwitchStaticFlock();
+		pFlock->SwitchToLastFormation();
+
+	}
+
+
+	
+
+
+
+
+	if (key == GLFW_KEY_6 && action == GLFW_PRESS)
+	{
+		pFlock->setFormation(UNKNOWN);
+
+	}
+
 
 
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
-		if (TextRend.getState() == CLOSE)
-		{
-			TextRend.setState(MAIN);
-		}
-		else
-		{
-			TextRend.setState(CLOSE);
-			
-		}
 		camera.b_controlledByScript = !camera.b_controlledByScript;
 	}
 
 
 
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-	{
 
-		switch (TextRend.getState())
-		{
-		case MAIN:
-		{
-			TextRend.setState(SETTINGS);
-			break;
-		}
-		case SETTINGS:
-		{
-			TextRend.setState(LANGUAGE);
-			break;
-		}
-		case LANGUAGE:
-		{
-			TextRend.setLang(ENGLISH);
-			break;
-		}
-		default:
-			break;
-		}
-	}
+	//if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	//{
 
-	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
-	{
-		switch (TextRend.getState())
-		{
-		case MAIN:
-		{
-			TextRend.setState(ABOUT);
-			break;
-		}
-		case SETTINGS:
-		{
-			TextRend.setState(WIND_SIZE);
-			break;
-		}
-		case LANGUAGE:
-		{
-			TextRend.setLang(JAPANESE);
-			break;
-		}
-		default:
-			break;
-		}
-	}
-	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
-	{
-		switch (TextRend.getState())
-		{
-		case MAIN:
-		{
-			TextRend.setState(CONTROLS);
-			break;
-		}
-		case SETTINGS:
-		{
-			break;
-		}
-		case LANGUAGE:
-		{
-			TextRend.setLang(UKRAINAN);
-			break;
-		}
-		default:
-			break;
-		}
-	}
-	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
-	{
-		switch (TextRend.getState())
-		{
-		case MAIN:
-		{
-			TextRend.setState(ENEMY);
-			break;
-		}
-		case SETTINGS:
-		{
-			break;
-		}
-		case LANGUAGE:
-		{
-			TextRend.setLang(SPANISH);
-			break;
-		}
-		default:
-			break;
-		}
-	}
-	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
-	{
-		switch (TextRend.getState())
-		{
-		case MAIN:
-		{
-			break;
-		}
-		case SETTINGS:
-		{
-			break;
-		}
-		case LANGUAGE:
-		{
-			TextRend.setLang(POLSKA);
-			break;
-		}
-		default:
-			break;
-		}
-	}
+	//	switch (TextRend.getState())
+	//	{
+	//	case MAIN:
+	//	{
+	//		TextRend.setState(SETTINGS);
+	//		break;
+	//	}
+	//	case SETTINGS:
+	//	{
+	//		TextRend.setState(LANGUAGE);
+	//		break;
+	//	}
+	//	case LANGUAGE:
+	//	{
+	//		TextRend.setLang(ENGLISH);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//}
+
+	//if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	//{
+	//	switch (TextRend.getState())
+	//	{
+	//	case MAIN:
+	//	{
+	//		TextRend.setState(ABOUT);
+	//		break;
+	//	}
+	//	case SETTINGS:
+	//	{
+	//		TextRend.setState(WIND_SIZE);
+	//		break;
+	//	}
+	//	case LANGUAGE:
+	//	{
+	//		TextRend.setLang(JAPANESE);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//}
+	//if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+	//{
+	//	switch (TextRend.getState())
+	//	{
+	//	case MAIN:
+	//	{
+	//		TextRend.setState(CONTROLS);
+	//		break;
+	//	}
+	//	case SETTINGS:
+	//	{
+	//		break;
+	//	}
+	//	case LANGUAGE:
+	//	{
+	//		TextRend.setLang(UKRAINAN);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//}
+	//if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+	//{
+	//	switch (TextRend.getState())
+	//	{
+	//	case MAIN:
+	//	{
+	//		TextRend.setState(ENEMY);
+	//		break;
+	//	}
+	//	case SETTINGS:
+	//	{
+	//		break;
+	//	}
+	//	case LANGUAGE:
+	//	{
+	//		TextRend.setLang(SPANISH);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//}
+	//if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+	//{
+	//	switch (TextRend.getState())
+	//	{
+	//	case MAIN:
+	//	{
+	//		break;
+	//	}
+	//	case SETTINGS:
+	//	{
+	//		break;
+	//	}
+	//	case LANGUAGE:
+	//	{
+	//		TextRend.setLang(POLSKA);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//}
 
 	
 
@@ -501,6 +539,10 @@ void ProcessAsynKeys(GLFWwindow* window)
 	//LIGHT CONTROL*********************************************************************************************************
 	if ( IsCtrlDown(window) )
 	{
+
+
+
+
 		
 		
 		//

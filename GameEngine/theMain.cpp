@@ -432,7 +432,7 @@ int main(int argc, char **argv)
 
 
 
-		TextRend.RenderMenu("menu.json", width, height);
+		//TextRend.RenderMenu("menu.json", width, height);
 		//TextRend.drawText(width, height, "Hello World", 50.0f);
 
 
